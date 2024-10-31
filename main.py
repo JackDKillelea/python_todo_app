@@ -3,7 +3,7 @@ todoList = []
 print("Hello, thank you for using my todo list!")
 
 while True:
-    userAction = input("Type add, show, edit, delete or exit: ")
+    userAction = input("Type add, show, edit, delete, complete or exit: ")
     match userAction.lower().strip():
         case "add":
             userInput = input("Enter a todo: ")
@@ -16,9 +16,12 @@ while True:
             edit = int(input("Please enter the number of the item you'd like to edit: "))
             newTodo = input("Please enter updated todo: ")
             todoList[edit - 1] = newTodo
-        case "delete":
-            delete = int(input("Please enter the number of the item you'd like to delete: "))
-            todoList.remove(todoList[delete - 1])
+        case "delete" | "complete":
+            if userAction.lower().strip() == "complete":
+                todo = int(input("Please enter the number of the item you'd like to complete: "))
+            else:
+                todo = int(input("Please enter the number of the item you'd like to delete: "))
+            todoList.remove(todoList[todo - 1])
         case "exit":
             break
         case _:
