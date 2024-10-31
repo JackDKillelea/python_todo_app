@@ -10,10 +10,8 @@ while True:
             capitalised = userInput.title()
             todoList.append(capitalised)
         case "show" | "display":
-            currentPos = 1
-            for item in todoList:
-                print(currentPos, "-", item)
-                currentPos = currentPos + 1
+            for index, item in enumerate(todoList):
+                print(f"{index + 1}. {item}")
         case "edit":
             edit = int(input("Please enter the number of the item you'd like to edit: "))
             newTodo = input("Please enter updated todo: ")
