@@ -4,9 +4,9 @@ def read_lines_file(file):
     return file_content
 
 def write_to_file(file, content_to_write):
-    with open("files/todos", "w") as file:
-        file.writelines(content_to_write)
-    return
+    with open(file, "w") as opened_file:
+        opened_file.writelines(content_to_write)
+
 
 print("Hello, thank you for using my todo list!")
 
