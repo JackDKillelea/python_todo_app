@@ -1,4 +1,12 @@
-from ast import Index
+def read_lines_file(file):
+    with open(file) as opened_file:
+        file_content = opened_file.readlines()
+    return file_content
+
+def write_to_file(file, content_to_write):
+    with open("files/todos", "w") as file:
+        file.writelines(content_to_write)
+    return
 
 print("Hello, thank you for using my todo list!")
 
@@ -8,20 +16,14 @@ while True:
 
     if userAction.startswith("add") or userAction.startswith("new"):
         userInput = userAction[4:]
-        # Read what is currently in the local text file and create a list from it
-        with open("files/todos") as todoFile:
-            todoList = todoFile.readlines()
-
+        todoList = read_lines_file("files/todos")
         capitalised = userInput.title()
         todoList.append(capitalised + "\n")
 
-        # Writes data to a local text file
-        with open("files/todos", "w") as todoFile:
-            todoFile.writelines(todoList)
+        write_to_file("files/todos", todoList)
 
     elif userAction.startswith("show"):
-        with open("files/todos") as todoFile:
-            todoList = todoFile.readlines()
+        todoList = read_lines_file("files/todos")
 
         if not todoList:
             print("You have no current todos.")
@@ -34,16 +36,12 @@ while True:
 
     elif userAction.startswith("edit"):
         try:
-            with open("files/todos") as todoFile:
-                todoList = todoFile.readlines()
-
+            todoList = read_lines_file("files/todos")
             userInput = userAction[5:]
             print(f"You are editing: {todoList[int(userInput) - 1]}")
             newTodo = input("Please enter updated todo: ") + "\n"
             todoList[int(userInput.strip()) - 1] = newTodo.title()
-
-            with open("files/todos", "w") as todoFile:
-                todoFile.writelines(todoList)
+            write_to_file("files/todos", todoList)
         except ValueError:
             print("Please enter a number when using edit.")
             continue
@@ -53,14 +51,10 @@ while True:
 
     elif userAction.startswith("complete"):
         try:
-            with open("files/todos") as todoFile:
-                todoList = todoFile.readlines()
-
+            todoList = read_lines_file("files/todos")
             userInput = userAction[9:]
             todoList.pop(int(userInput.strip()) - 1)
-
-            with open("files/todos", "w") as todoFile:
-                todoFile.writelines(todoList)
+            write_to_file("files/todos", todoList)
         except ValueError:
             print("Please enter a number when using complete.")
             continue
