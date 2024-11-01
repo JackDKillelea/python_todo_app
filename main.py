@@ -7,41 +7,53 @@ def write_to_file(file, content_to_write):
     with open(file, "w") as opened_file:
         opened_file.writelines(content_to_write)
 
+def add_todo(user_action):
+    user_input = user_action[4:]
+    todo_list = read_lines_file("files/todos")
+    capitalised = user_input.title()
+    todo_list.append(capitalised + "\n")
+    write_to_file("files/todos", todo_list)
+
+def show_todos():
+    todoList = read_lines_file("files/todos")
+    if not todoList:
+        print("You have no current todos.")
+    else:
+        # List Comprehension
+        # formattedTodos = [item.strip("\n") for item in todoList]
+        for index, item in enumerate(todoList):
+            row = f"{index + 1}. {item}"
+            print(row.strip("\n"))
+
+def edit_todo(user_action):
+        todo_list = read_lines_file("files/todos")
+        user_input = user_action[5:]
+        print(f"You are editing: {todo_list[int(user_input) - 1]}")
+        new_todo = input("Please enter updated todo: ") + "\n"
+        todo_list[int(user_input.strip()) - 1] = new_todo.title()
+        write_to_file("files/todos", todo_list)
+
+def complete_todo(user_action):
+    todo_list = read_lines_file("files/todos")
+    user_input = user_action[9:]
+    todo_list.pop(int(user_input.strip()) - 1)
+    write_to_file("files/todos", todo_list)
 
 print("Hello, thank you for using my todo list!")
 
 while True:
-    userAction = input("Type add, show, edit, complete or exit: ")
-    userAction = userAction.lower().strip()
+    user_action = input("Type add, show, edit, complete or exit: ")
+    user_action = user_action.lower().strip()
 
-    if userAction.startswith("add") or userAction.startswith("new"):
-        userInput = userAction[4:]
-        todoList = read_lines_file("files/todos")
-        capitalised = userInput.title()
-        todoList.append(capitalised + "\n")
+    if user_action.startswith("add") or user_action.startswith("new"):
+        add_todo(user_action)
 
-        write_to_file("files/todos", todoList)
+    elif user_action.startswith("show"):
+        show_todos()
 
-    elif userAction.startswith("show"):
-        todoList = read_lines_file("files/todos")
-
-        if not todoList:
-            print("You have no current todos.")
-        else:
-            # List Comprehension
-            # formattedTodos = [item.strip("\n") for item in todoList]
-            for index, item in enumerate(todoList):
-                row = f"{index + 1}. {item}"
-                print(row.strip("\n"))
-
-    elif userAction.startswith("edit"):
+    elif user_action.startswith("edit"):
         try:
-            todoList = read_lines_file("files/todos")
-            userInput = userAction[5:]
-            print(f"You are editing: {todoList[int(userInput) - 1]}")
-            newTodo = input("Please enter updated todo: ") + "\n"
-            todoList[int(userInput.strip()) - 1] = newTodo.title()
-            write_to_file("files/todos", todoList)
+            edit_todo(user_action)
         except ValueError:
             print("Please enter a number when using edit.")
             continue
@@ -49,12 +61,9 @@ while True:
             print("That todo does not exist, please use the show command to see what todos you have.")
             continue
 
-    elif userAction.startswith("complete"):
+    elif user_action.startswith("complete"):
         try:
-            todoList = read_lines_file("files/todos")
-            userInput = userAction[9:]
-            todoList.pop(int(userInput.strip()) - 1)
-            write_to_file("files/todos", todoList)
+            complete_todo(user_action)
         except ValueError:
             print("Please enter a number when using complete.")
             continue
@@ -62,7 +71,7 @@ while True:
             print("That todo does not exist, please use the show command to see what todos you have.")
             continue
 
-    elif userAction.startswith("exit"):
+    elif user_action.startswith("exit"):
         break
 
     else:
