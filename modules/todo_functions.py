@@ -1,4 +1,4 @@
-from data_functions import read_lines_file, write_to_file
+from modules.data_functions import read_lines_file, write_to_file
 
 def add_todo(user_action):
     """ Adds a todo to the local text file. """
