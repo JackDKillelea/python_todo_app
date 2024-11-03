@@ -1,7 +1,7 @@
 from modules.todo_functions import add_todo, show_todos, edit_todo, complete_todo
-# Can also use import todo_functions (then call todo_functions.x()) or import todo_functions as tdf (then call tfd.x())
+import time
 
-print("Hello, thank you for using my todo list!")
+print(f"Hello, current date and time is {time.strftime("%b %d %Y, %H:%M:%S")}")
 
 while True:
     user_action = input("Type add, show, edit, complete or exit: ")
