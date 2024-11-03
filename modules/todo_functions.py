@@ -35,3 +35,4 @@ def complete_todo(user_action):
     user_input = user_action[9:]
     todo_list.pop(int(user_input.strip()) - 1)
     write_to_file(todo_list)
+
